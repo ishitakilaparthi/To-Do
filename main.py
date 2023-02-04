@@ -17,7 +17,7 @@ def get_session():
     finally:
         session.close()
 
-@app.get("/")
+@app.get("/docs")
 def root():
     return "todooo"
 
