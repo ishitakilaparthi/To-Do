@@ -1,11 +1,17 @@
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 engine = create_engine("sqlite:///data.db")
 
 Base = declarative_base()
 
-class ToDo(Base):
-    __tablename__ = 'todos'
-    id = Column(Integer, primary_key=True)
-    task = Column(String(256))
+SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
+
+def get_session():
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()
+
